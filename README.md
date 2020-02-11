@@ -99,3 +99,9 @@ public class TestScenario1 extends ScenarioRunner {
     }
 ]
 ```
+
+## Run tests
+
+It reads the host from swagger.json, but you can override it with system property.
+
+```mvn clean -Dswagger-file=/Users/vd-mehdi/TEMP/swagger.json -Dhost=https://petstore.swagger.io test```

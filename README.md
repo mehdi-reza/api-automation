@@ -34,8 +34,8 @@ public class TestScenario1 extends ScenarioRunner {
     	"produces": "application/json",
     	"headers": {},
         "data": {
-	        "petId": 1,
-	        "name": "Pet name"
+	  "petId": 1,
+	  "name": "Pet name"
         }
     },
     
@@ -43,31 +43,31 @@ public class TestScenario1 extends ScenarioRunner {
     {
     	"consumes": "application/json",
     	"produces": "application/json",
-	    "headers": {},
-	    "data": {
-	    	"petId": 509194403
-	    }
+	"headers": {},
+	"data": {
+	  "petId": 509194403
+	}
     },
     
     "get:/pet/findByStatus", 
 	{
-	    "consumes": "application/json",
+	"consumes": "application/json",
     	"produces": "application/json",
     	"headers": {},
-	    "data": {
-	    	"status": "sold"
-	    }
+	"data": {
+	  "status": "sold"
+	}
     },
     
     "post:/pet/{petId}",
     {
     	"consumes": "application/json",
     	"produces": "application/json",
-    	"headers": {},
-    	"data": {
-	    	"petId": 509194403,
-	    	"name": "Trump",
-	    	"status":"available"
+	"headers": {},
+	"data": {
+	  "petId": 509194403,
+	  "name": "Trump",
+	  "status":"available"
     	}
     },
     
@@ -76,10 +76,10 @@ public class TestScenario1 extends ScenarioRunner {
     	"consumes": "application/json",
     	"produces": "application/json",
     	"headers": {
-    		"api_key":"blah blah"
+    	  "api_key":"blah blah"
     	},
     	"data": {
-    		"petId": 1964
+    	  "petId": 1964
     	}
     },
     
@@ -87,16 +87,14 @@ public class TestScenario1 extends ScenarioRunner {
     {
     	"consumes": "application/json",
     	"produces": "application/json",
-    	"headers": {
-    		
-    	},
+    	"headers": {},
     	"data": {
-    		"body": {
-    			"type": "dog",
-    			"name": "doggie",
-    			"photoUrls": ["http://bit.li/1","http://bit.li/2"],
-    			"status":"sold"
-    		}
+    	  "body": {
+    	    "type": "dog",
+    	    "name": "doggie",
+    	    "photoUrls": ["http://bit.li/1","http://bit.li/2"],
+    	    "status":"sold"
+    	  }
     	}
     }
 ]

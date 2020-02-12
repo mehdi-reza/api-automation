@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,7 +132,9 @@ public class Automate {
 	}
 	
 	public Operation findOperation(HTTP_METHOD method, final String path) {
-		Path api = this.apis.stream().filter(_api -> _api.getPath().equals(path)).findFirst().get();
-		return api.getOperations().get(method);
+		Optional<Path> api = this.apis.stream().filter(_api -> _api.getPath().equals(path)).findFirst();
+		if(!api.isPresent())
+			throw new RuntimeException(String.format("No such operation \"%s\" found in swagger", (method.toString().toLowerCase()+":"+path)));
+		return api.get().getOperations().get(method);
 	}
 }

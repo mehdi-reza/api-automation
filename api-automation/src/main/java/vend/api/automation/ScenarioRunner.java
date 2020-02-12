@@ -56,8 +56,8 @@ public abstract class ScenarioRunner {
 		Scenario scenario = this.getClass().getAnnotation(Scenario.class);
 		try {
 			this.resource = readResource(scenario.resource());
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 

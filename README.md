@@ -17,8 +17,7 @@ public class TestScenario1 extends ScenarioRunner {
   @Order(2)
   public void testFindByStatus() {
     logger.info("testFindByStatus");
-    String response = callApi("get:/pet/findByStatus").asString();
-    logger.debug(response);
+    callApi("get:/pet/{petId}").then().body("name", is("Trump"));
   }
   
 }

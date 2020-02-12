@@ -1,5 +1,8 @@
 package tez;
 
+import static org.hamcrest.core.Is.is;
+
+import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import org.junit.jupiter.api.Order;
@@ -29,8 +32,7 @@ public class TestScenario1 extends ScenarioRunner {
 	@Order(1)
 	public void testGetByPetId() {
 		logger.info("testGetByPetId");
-		String response = callApi("get:/pet/{petId}").asString();
-		logger.debug(response);
+		callApi("get:/pet/{petId}").then().body("name", is("Trump"));
 	}
 
 	@Test

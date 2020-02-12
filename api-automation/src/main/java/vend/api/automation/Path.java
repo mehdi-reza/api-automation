@@ -19,27 +19,33 @@ public class Path {
 		this.path = path;
 		parseParameters();
 		details.entrySet().forEach(entry -> {
-			HTTP_METHOD method = HTTP_METHOD.valueOf(entry.getKey().toUpperCase());
-			this.operations.put(method,
-					new Operation(method, entry.getValue().getAsJsonObject()));
+
+			HTTP_METHOD method = null;
+			try {
+				method = HTTP_METHOD.valueOf(entry.getKey().toUpperCase());
+			} catch (IllegalArgumentException e) {
+				return;
+			}
+
+			this.operations.put(method, new Operation(method, entry.getValue().getAsJsonObject()));
 		});
 	}
 
 	private void parseParameters() {
-		
+
 		final String regex = "(\\{[a-zA-Z]+\\})";
 
 		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 		final Matcher matcher = pattern.matcher(path);
 
 		boolean matches = matcher.find();
-		
-		while(matches) {
+
+		while (matches) {
 			this.parameters.add(matcher.group().replace("{", "").replace("}", ""));
 			matches = matcher.find();
 		}
 	}
-	
+
 	public List<String> getParameters() {
 		return parameters;
 	}

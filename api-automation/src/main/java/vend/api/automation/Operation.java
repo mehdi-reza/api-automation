@@ -25,6 +25,8 @@ public class Operation {
 
 	protected void setParameters(JsonObject details) {
 		
+		if(details.get("parameters")==null) return;
+		
 		details.get("parameters").getAsJsonArray().forEach(element -> {
 			
 			Parameter parameter = new Parameter();
@@ -37,7 +39,9 @@ public class Operation {
 			
 			if(element.getAsJsonObject().get("format")!=null)
 				parameter.setFormat(element.getAsJsonObject().get("format").getAsString());
-			parameter.setRequired(element.getAsJsonObject().get("required").getAsBoolean());
+			
+			if(element.getAsJsonObject().get("required")!=null)
+				parameter.setRequired(element.getAsJsonObject().get("required").getAsBoolean());
 			
 			if(element.getAsJsonObject().get("description")!=null)
 				parameter.setDescription(element.getAsJsonObject().get("description").getAsString());

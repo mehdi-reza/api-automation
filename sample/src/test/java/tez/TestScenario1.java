@@ -2,12 +2,7 @@ package tez;
 
 import static org.hamcrest.core.Is.is;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -18,6 +13,7 @@ import com.google.gson.JsonObject;
 
 import io.restassured.mapper.ObjectMapperType;
 import io.restassured.response.Response;
+import vend.api.automation.Parameter;
 import vend.api.automation.ScenarioRunner;
 import vend.api.automation.annotations.Scenario;
 
@@ -53,13 +49,18 @@ public class TestScenario1 extends ScenarioRunner {
 		push("name", response.getBody().as(JsonObject.class, ObjectMapperType.GSON).get("name").getAsString());
 		
 		logger.debug(response.asString());
+				
 	}
 
 	@Test
 	@Order(3)
 	public void testUpdatetPet() {
 		logger.info("testUpdatetPet");
-		String response = callApi("post:/pet/{petId}").asString();
+		
+		// override parameter or use a saved data
+		Parameter petName = Parameter.ofType(Parameter.IN.FORMDATA, "name", "Bush");
+		
+		String response = callApi("post:/pet/{petId}", petName).asString();
 		logger.debug(response);
 	}
 

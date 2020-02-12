@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ public class Automate {
 
 	String host;
 	String basePath;
+	String scheme;
 
 	public static void main(String[] args) {
 
@@ -71,6 +73,11 @@ public class Automate {
 		
 		if (apiDoc.get("basePath") != null)
 			this.basePath = apiDoc.get("basePath").getAsString();
+		
+		if (apiDoc.get("schemes") != null)
+			this.scheme = apiDoc.get("schemes").getAsJsonArray().get(0).getAsString();
+		else
+			throw new RuntimeException("No schemes defined in swagger");
 	}
 	
 	public Automate(File swagger) {
@@ -120,8 +127,14 @@ public class Automate {
 		return basePath;
 	}
 	
+	public String getScheme() {
+		return scheme;
+	}
+	
 	public Operation findOperation(HTTP_METHOD method, final String path) {
-		Path api = this.apis.stream().filter(_api -> _api.getPath().equals(path)).findFirst().get();
-		return api.getOperations().get(method);
+		Optional<Path> api = this.apis.stream().filter(_api -> _api.getPath().equals(path)).findFirst();
+		if(!api.isPresent())
+			throw new RuntimeException(String.format("No such operation \"%s\" found in swagger", (method.toString().toLowerCase()+":"+path)));
+		return api.get().getOperations().get(method);
 	}
 }

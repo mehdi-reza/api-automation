@@ -12,12 +12,32 @@ A JUnit test is defined as following:
 public class TestScenario1 extends ScenarioRunner {
 
   private Logger logger = LoggerFactory.getLogger(TestScenario1.class);
-
+  
+  @Test
+  @Order(1)
+  public void testGetByPetId() {
+    logger.info("testGetByPetId");
+  
+    // returns as restassured Response
+    Response response = callApi("get:/pet/{petId}");
+		
+    // get a validatable response and assert
+    response.then().body("name", is("Trump"));
+  
+    // save for later use in other test method
+    push("name", response.getBody().as(JsonObject.class, ObjectMapperType.GSON).get("name").getAsString());
+    logger.debug(response.asString());
+  }
+  
   @Test
   @Order(2)
   public void testFindByStatus() {
     logger.info("testFindByStatus");
-    callApi("get:/pet/{petId}").then().body("name", is("Trump"));
+		
+    logger.info("peek(\"name\") returns {}", peek("name"));
+		
+    String response = callApi("get:/pet/findByStatus").asString();
+    logger.debug(response);
   }
   
 }

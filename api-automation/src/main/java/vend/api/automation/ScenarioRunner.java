@@ -7,8 +7,10 @@ import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.gson.GsonBuilder;
@@ -25,6 +27,8 @@ public abstract class ScenarioRunner {
 
 	private static Automate automate;
 	private JsonArray resource;
+	
+	private static Map<String, Object> savedData=new HashMap<>();
 
 	public ScenarioRunner() {
 		
@@ -125,4 +129,20 @@ public abstract class ScenarioRunner {
 		}
 		return null;
 	}
+	
+	protected void push(String key, Object value) {
+		ScenarioRunner.savedData.put(key, value);
+	}
+	
+	protected Object peek(String key) {
+		return ScenarioRunner.savedData.get(key);
+	}
+	
+	protected Object pop(String key) {
+		Object value = ScenarioRunner.savedData.get(key);
+		if(value!=null)
+			ScenarioRunner.savedData.remove(key);
+		return value;
+	}
+	
 }

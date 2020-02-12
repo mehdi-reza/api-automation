@@ -25,6 +25,8 @@ public class Operation {
 
 	protected void setParameters(JsonObject details) {
 		
+		if(details.get("parameters")==null) return;
+		
 		details.get("parameters").getAsJsonArray().forEach(element -> {
 			
 			Parameter parameter = new Parameter();

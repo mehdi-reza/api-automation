@@ -26,6 +26,7 @@ public class Automate {
 
 	String host;
 	String basePath;
+	String scheme;
 
 	public static void main(String[] args) {
 
@@ -71,6 +72,11 @@ public class Automate {
 		
 		if (apiDoc.get("basePath") != null)
 			this.basePath = apiDoc.get("basePath").getAsString();
+		
+		if (apiDoc.get("schemes") != null)
+			this.scheme = apiDoc.get("schemes").getAsJsonArray().get(0).getAsString();
+		else
+			throw new RuntimeException("No schemes defined in swagger");
 	}
 	
 	public Automate(File swagger) {
@@ -118,6 +124,10 @@ public class Automate {
 
 	public String getBasePath() {
 		return basePath;
+	}
+	
+	public String getScheme() {
+		return scheme;
 	}
 	
 	public Operation findOperation(HTTP_METHOD method, final String path) {

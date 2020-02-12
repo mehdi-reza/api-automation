@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +29,17 @@ public abstract class ScenarioRunner {
 	public ScenarioRunner() {
 		
 		if (ScenarioRunner.automate == null) {
-			ScenarioRunner.automate = new Automate(new File(System.getProperties().get("swagger-file").toString()));
+			if(System.getProperties().get("swagger-file")!=null)
+				ScenarioRunner.automate = new Automate(new File(System.getProperties().get("swagger-file").toString()));
+			else if(System.getProperties().get("swagger-url")!=null) {
+				try {
+					ScenarioRunner.automate = new Automate(new URL(System.getProperties().get("swagger-url").toString()));
+				} catch (MalformedURLException e) {
+					throw new RuntimeException(e);
+				}
+			} else {
+				throw new RuntimeException("Please specify swagger-file or swagger-url property");
+			}
 		}
 		
 		Scenario scenario = this.getClass().getAnnotation(Scenario.class);

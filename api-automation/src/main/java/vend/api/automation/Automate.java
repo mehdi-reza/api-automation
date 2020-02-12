@@ -2,6 +2,12 @@ package vend.api.automation;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UncheckedIOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,25 +41,41 @@ public class Automate {
 
 		new Automate(swagger);
 	}
+	
+	public Automate(URL url) {
+		URLConnection c = null;
+		try {
+			c = url.openConnection();
+			c.connect();
+			try (Reader reader = new InputStreamReader(c.getInputStream())) {
+				read(reader);
+			}
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
 
+	private void read(Reader reader) {
+		
+		JsonObject apiDoc = new GsonBuilder().create().fromJson(reader, JsonObject.class);
+
+		readPaths(apiDoc);
+		readDefinitions(apiDoc);
+		printSummary();
+
+		this.host = apiDoc.get("host").getAsString();
+
+		// override if defined in system property
+		if(System.getProperty("host") != null)
+			this.host = System.getProperty("host");
+		
+		if (apiDoc.get("basePath") != null)
+			this.basePath = apiDoc.get("basePath").getAsString();
+	}
+	
 	public Automate(File swagger) {
 		try (FileReader reader = new FileReader(swagger)) {
-
-			JsonObject apiDoc = new GsonBuilder().create().fromJson(reader, JsonObject.class);
-
-			readPaths(apiDoc);
-			readDefinitions(apiDoc);
-			printSummary();
-
-			this.host = apiDoc.get("host").getAsString();
-
-			// override if defined in system property
-			if(System.getProperty("host") != null)
-				this.host = System.getProperty("host");
-			
-			if (apiDoc.get("basePath") != null)
-				this.basePath = apiDoc.get("basePath").getAsString();
-
+			read(reader);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

@@ -133,7 +133,7 @@ public class Automate {
 	
 	public Operation findOperation(HTTP_METHOD method, final String path) {
 		Optional<Path> api = this.apis.stream().filter(_api -> _api.getPath().equals(path)).findFirst();
-		if(!api.isPresent())
+		if(!api.isPresent() || api.get().getOperations().get(method) == null)
 			throw new RuntimeException(String.format("No such operation \"%s\" found in swagger", (method.toString().toLowerCase()+":"+path)));
 		return api.get().getOperations().get(method);
 	}

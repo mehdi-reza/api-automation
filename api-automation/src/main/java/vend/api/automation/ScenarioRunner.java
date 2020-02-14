@@ -30,6 +30,16 @@ import io.restassured.specification.RequestSpecification;
 import vend.api.automation.annotations.Scenario;
 
 /**
+ * An abstract class which should be extended for your api automation scenario. 
+ * It provides method {@link ScenarioRunner#callApi(String, Parameter...)} which is called in a JUnit test to invoke an api operation.
+ * 
+ * Following are some samples for apiName parameter:
+ * 
+ * post:/api/user/info
+ * get:/api/common/cities
+ * delete:/api/user/{id}
+ * 
+ * 
  * 
  * @author Mehdi Raza
  *

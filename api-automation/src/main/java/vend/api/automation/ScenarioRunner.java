@@ -29,6 +29,11 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import vend.api.automation.annotations.Scenario;
 
+/**
+ * 
+ * @author Mehdi Raza
+ *
+ */
 public abstract class ScenarioRunner {
 
 	private static Automate automate;

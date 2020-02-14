@@ -224,18 +224,51 @@ public abstract class ScenarioRunner {
 		throw new RuntimeException(String.format("HTTP method %s is not yet implemented", method));
 	}
 
+	/**
+	 * Pushes a value in internal map for later user.
+	 * @param key
+	 * @param value
+	 */
 	protected void push(String key, Object value) {
 		ScenarioRunner.savedData.put(key, value);
 	}
+	
+	/**
+	 * An alias of {@link vend.api.automation.ScenarioRunner#push(String key, Object value)}.
+	 * @param key
+	 * @return
+	 */
+	protected void set(String key, Object value) {
+		ScenarioRunner.savedData.put(key, value);
+	}
 
+	/**
+	 * Returns a keyed value from internal map without removing it.
+	 * @param key
+	 * @return
+	 */
 	protected Object peek(String key) {
 		return ScenarioRunner.savedData.get(key);
 	}
 
+	/**
+	 * Returns a keyed value from internal map and also removes it.
+	 * @param key
+	 * @return
+	 */
 	protected Object pop(String key) {
 		Object value = ScenarioRunner.savedData.get(key);
 		if (value != null)
 			ScenarioRunner.savedData.remove(key);
 		return value;
+	}
+	
+	/**
+	 * An alias of {@link vend.api.automation.ScenarioRunner#peek(String key)}.
+	 * @param key
+	 * @return
+	 */
+	protected Object get(String key) {
+		return peek(key);
 	}
 }

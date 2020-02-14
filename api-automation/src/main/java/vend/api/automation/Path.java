@@ -9,6 +9,11 @@ import java.util.regex.Pattern;
 
 import com.google.gson.JsonObject;
 
+/**
+ * 
+ * @author Mehdi Raza
+ *
+ */
 public class Path {
 
 	private String path;

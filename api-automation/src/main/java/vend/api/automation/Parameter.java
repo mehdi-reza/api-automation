@@ -2,6 +2,11 @@ package vend.api.automation;
 
 import java.util.Objects;
 
+/**
+ * 
+ * @author Mehdi Raza
+ *
+ */
 public class Parameter {
 
 	private String name;

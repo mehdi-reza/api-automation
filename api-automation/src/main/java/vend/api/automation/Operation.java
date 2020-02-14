@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.google.gson.JsonObject;
 
+/**
+ * 
+ * @author Mehdi Raza
+ *
+ */
 public class Operation {
 
 	private List<String> consumes = new ArrayList<>();

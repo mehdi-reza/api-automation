@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -33,13 +32,15 @@ import vend.api.automation.annotations.Scenario;
  * An abstract class which should be extended for your api automation scenario. 
  * It provides method {@link ScenarioRunner#callApi(String, Parameter...)} which is called in a JUnit test to invoke an api operation.
  * 
- * Following are some samples for apiName parameter:
+ * Following are some examples for apiName parameter:
  * 
- * post:/api/user/info
- * get:/api/common/cities
- * delete:/api/user/{id}
+ * <ul>
+ * <li>post:/api/user/info
+ * <li>get:/api/common/cities
+ * <li>delete:/api/user/{id}
+ * </ul>
  * 
- * 
+ * It will try getting test data for the operation from {@link Scenario} annotated resource file over JUnit Test class
  * 
  * @author Mehdi Raza
  *

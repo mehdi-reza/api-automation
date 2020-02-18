@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -54,6 +55,10 @@ public abstract class ScenarioRunner {
 
 	private Logger logger = LoggerFactory.getLogger(ScenarioRunner.class);
 
+	protected PreProcessor noOp() {
+		return (data) -> {};
+	}
+	
 	protected ScenarioRunner() {
 
 		if (ScenarioRunner.automate == null) {
@@ -85,7 +90,7 @@ public abstract class ScenarioRunner {
 		}
 	}
 
-	protected Response callApi(String apiName, Parameter... parameters) {
+	protected Response callApi(String apiName, PreProcessor preProcessor, Parameter... parameters) {
 
 		String[] methodAndPath = apiName.split(":");
 
@@ -128,6 +133,10 @@ public abstract class ScenarioRunner {
 
 		final JsonObject parent = findParent.apply(resource, apiName);
 		final JsonObject data = findInParent.apply(parent, "data");
+		
+		if(Objects.nonNull(data))
+			preProcessor.process(data);
+		
 		final JsonObject headers = findInParent.apply(parent, "headers");
 
 		/** path parameters **/

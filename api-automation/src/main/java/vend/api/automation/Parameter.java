@@ -106,6 +106,40 @@ public class Parameter {
 	public Object getValue() {
 		return value;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getValue(Class<T> clazz) {
+		if(clazz==String.class)
+			if(getValue().getClass()==String.class)
+				return (T)getValue();
+			else
+				return (T) getValue().toString();
+		if(clazz==Integer.class)
+			if(getValue().getClass()==Integer.class)
+				return (T)getValue();
+			else
+				return (T)Integer.valueOf(getValue().toString());
+		
+		if(clazz==Boolean.class)
+			if(getValue().getClass()==Boolean.class)
+				return (T)getValue();
+			else
+				return (T)Boolean.valueOf(getValue().toString());
+		
+		if(clazz==Double.class)
+			if(getValue().getClass()==Double.class)
+				return (T)getValue();
+			else
+				return (T)Double.valueOf(getValue().toString());
+		
+		if(clazz==Long.class)
+			if(getValue().getClass()==Long.class)
+				return (T)getValue();
+			else
+				return (T)Long.valueOf(getValue().toString());
+		
+		throw new RuntimeException(String.format("Converter for class %s not supported", clazz.getName()));
+	}
 
 	@Override
 	public boolean equals(Object obj) {

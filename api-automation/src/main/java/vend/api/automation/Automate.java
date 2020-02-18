@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 
 /**
  * 
@@ -63,8 +64,9 @@ public class Automate {
 	}
 
 	private void read(Reader reader) {
-		
-		JsonObject apiDoc = new GsonBuilder().create().fromJson(reader, JsonObject.class);
+		JsonReader jsonReader = new JsonReader(reader);
+		jsonReader.setLenient(true);
+		JsonObject apiDoc = new GsonBuilder().create().fromJson(jsonReader, JsonObject.class);
 
 		readPaths(apiDoc);
 		readDefinitions(apiDoc);

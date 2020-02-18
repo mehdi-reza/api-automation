@@ -82,6 +82,27 @@ public abstract class ScenarioRunner {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	private BiFunction<JsonArray, String, JsonObject> findParent = (resource, apiName) -> {
+		int index = 0;
+		for (Iterator<JsonElement> i = resource.iterator(); i.hasNext();) {
+			JsonElement element = i.next();
+			if (element.isJsonPrimitive() && element.getAsString().equals(apiName)) {
+				break;
+			}
+			index++;
+		}
+		if (resource.size() > index+1)
+			return resource.get(index + 1).getAsJsonObject();
+		else
+			return null;
+	};
+	
+	private BiFunction<JsonObject, String, JsonObject> findInParent = (parent, collection) -> {
+		if(parent!=null && parent.get(collection)!=null)
+			return parent.get(collection).getAsJsonObject();
+		else return null;
+	};
 
 	private JsonArray readResource(String resource) throws IOException {
 
@@ -92,6 +113,20 @@ public abstract class ScenarioRunner {
 	
 	protected Response callApi(String apiName, Parameter ... parameters) {
 		return callApi(apiName, noOp(), parameters);
+	}
+	
+	protected JsonObject getData(String apiName) {
+		JsonObject parent = findParent.apply(this.resource, apiName);
+		if(Objects.nonNull(parent))
+			return findInParent.apply(parent, "data");
+		return null;
+	}
+	
+	protected JsonObject getHeaders(String apiName) {
+		JsonObject parent = findParent.apply(this.resource, apiName);
+		if(Objects.nonNull(parent))
+			return findInParent.apply(parent, "headers");
+		return null;
 	}
 
 	protected Response callApi(String apiName, PreProcessor preProcessor, Parameter... parameters) {
@@ -114,26 +149,7 @@ public abstract class ScenarioRunner {
 
 		boolean inBody = operation.getParameters().stream().anyMatch(parameter -> parameter.getIn().equals("body"));
 
-		BiFunction<JsonArray, String, JsonObject> findParent = (resource, _apiName) -> {
-			int index = 0;
-			for (Iterator<JsonElement> i = resource.iterator(); i.hasNext();) {
-				JsonElement element = i.next();
-				if (element.isJsonPrimitive() && element.getAsString().equals(apiName)) {
-					break;
-				}
-				index++;
-			}
-			if (resource.size() > index+1)
-				return resource.get(index + 1).getAsJsonObject();
-			else
-				return null;
-		};
 		
-		BiFunction<JsonObject, String, JsonObject> findInParent = (parent, collection) -> {
-			if(parent!=null && parent.get(collection)!=null)
-				return parent.get(collection).getAsJsonObject();
-			else return null;
-		};
 
 		final JsonObject parent = findParent.apply(resource, apiName);
 		final JsonObject data = findInParent.apply(parent, "data");

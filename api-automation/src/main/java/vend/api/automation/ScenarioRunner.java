@@ -55,7 +55,7 @@ public abstract class ScenarioRunner {
 
 	private Logger logger = LoggerFactory.getLogger(ScenarioRunner.class);
 
-	protected PreProcessor noOp() {
+	private PreProcessor noOp() {
 		return (data) -> {};
 	}
 	
@@ -88,6 +88,10 @@ public abstract class ScenarioRunner {
 		try (InputStream stream = this.getClass().getClassLoader().getResourceAsStream(resource)) {
 			return new GsonBuilder().create().fromJson(new InputStreamReader(stream), JsonArray.class);
 		}
+	}
+	
+	protected Response callApi(String apiName, Parameter ... parameters) {
+		return callApi(apiName, noOp(), parameters);
 	}
 
 	protected Response callApi(String apiName, PreProcessor preProcessor, Parameter... parameters) {

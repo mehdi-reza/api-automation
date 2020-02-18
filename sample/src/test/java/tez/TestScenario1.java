@@ -30,7 +30,7 @@ public class TestScenario1 extends ScenarioRunner {
 		
 		logger.info("peek(\"name\") returns {}", peek("name"));
 		
-		String response = callApi("get:/pet/findByStatus", noOp()).asString();
+		String response = callApi("get:/pet/findByStatus").asString();
 		logger.debug(response);
 	}
 
@@ -40,7 +40,7 @@ public class TestScenario1 extends ScenarioRunner {
 		logger.info("testGetByPetId");
 		
 		// returns as restassured Response
-		Response response = callApi("get:/pet/{petId}", noOp());
+		Response response = callApi("get:/pet/{petId}");
 		
 		// get a validatable response and assert
 		response.then().body("name", is("Trump"));
@@ -60,7 +60,7 @@ public class TestScenario1 extends ScenarioRunner {
 		// override parameter or use a saved data
 		Parameter petName = Parameter.ofType(Parameter.IN.FORMDATA, "name", "Bush");
 		
-		String response = callApi("post:/pet/{petId}", noOp(), petName).asString();
+		String response = callApi("post:/pet/{petId}", petName).asString();
 		logger.debug(response);
 	}
 
@@ -68,7 +68,7 @@ public class TestScenario1 extends ScenarioRunner {
 	@Order(4)
 	public void testDeletePet() {
 		logger.info("testDeletePet");
-		String response = callApi("delete:/pet/{petId}", noOp()).asString();
+		String response = callApi("delete:/pet/{petId}").asString();
 		logger.debug(response);
 	}
 	
@@ -76,7 +76,7 @@ public class TestScenario1 extends ScenarioRunner {
 	@Order(5)
 	public void testCreatePet() {
 		logger.info("testCreatePet");
-		String response = callApi("post:/pet", noOp()).asString();
+		String response = callApi("post:/pet").asString();
 		logger.debug(response);
 	}
 }

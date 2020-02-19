@@ -42,6 +42,7 @@ public class TestScenario1 extends ScenarioRunner {
   
 }
 ```
+Read further on assertions https://github.com/rest-assured/rest-assured/wiki/usage
 
 ## Test data
 

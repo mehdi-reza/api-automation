@@ -1,6 +1,6 @@
 # api-automation
 
-[![CircleCI](https://circleci.com/gh/mehdi-reza/api-automation.svg?style=svg)](https://circleci.com/gh/mehdi-reza/api-automation)
+[![CircleCI](https://circleci.com/gh/mehdi-reza/api-automation.svg?style=shield)](https://circleci.com/gh/mehdi-reza/api-automation)
 
 It uses swagger.json to find out all available operations and required parameters.
 

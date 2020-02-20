@@ -8,4 +8,4 @@ workflows:
     jobs:
       - maven/test: # checkout, build, test, and upload test results
           app_src_directory: 'api-automation'
-          settings_file: '.circleci/settings.xml'
+          settings_file: '../.circleci/settings.xml'

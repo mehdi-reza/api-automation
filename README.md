@@ -1,5 +1,7 @@
 # api-automation
 
+[![CircleCI](https://circleci.com/gh/mehdi-reza/api-automation.svg?style=svg)](https://circleci.com/gh/mehdi-reza/api-automation)
+
 It uses swagger.json to find out all available operations and required parameters.
 
 See sample/src/test/java/tez/TestScenario1.java. The test data is defined in src/test/resources/scenario.1.res and annotated in test class.

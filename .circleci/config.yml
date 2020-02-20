@@ -7,4 +7,5 @@ workflows:
   maven_test:
     jobs:
       - maven/test: # checkout, build, test, and upload test results
-          command: '-f ./api-automation/pom.xml test'
+          app_src_directory: 'api-automation'
+          settings_file: 'api-automation/pom.xml'

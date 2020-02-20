@@ -10,3 +10,4 @@ workflows:
           app_src_directory: 'api-automation'
           settings_file: '../.circleci/settings.xml'
           test_results_path: 'api-automation/target/surefire-reports'
+          command: 'test coveralls:report'

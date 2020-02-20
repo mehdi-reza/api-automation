@@ -36,7 +36,7 @@ public class GetApiTest {
 		ScenarioRunnerExt ext = new ScenarioRunnerExt();
 		Response response = ext.callApi(apiName);
 		
-		logger.info("Response received: {}", response);
+		logger.info("Response received: {}", response.asString());
 		
 		response.then().body("id", is(ext.getData(apiName).get("petId").getAsInt()));	
 	}
@@ -44,10 +44,10 @@ public class GetApiTest {
 	@Test
 	public void testSimpleGetProcessPayload() {
 		Response response = new ScenarioRunnerExt().callApi("get:/pet/{petId}", data -> {
-			data.addProperty("petId", 101);
+			data.addProperty("petId", 99);
 		});
-		logger.info("Response received: {}", response);
-		response.then().body("id", is(101));
+		logger.info("Response received: {}", response.asString());
+		response.then().body("id", is(99));
 	}
 	
 	@Scenario(resource = "get.res")

@@ -7,22 +7,24 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import vend.api.automation.Parameter;
 import vend.api.automation.ScenarioRunner;
 import vend.api.automation.annotations.Scenario;
 
-@TestInstance(Lifecycle.PER_CLASS)
-public class GetApiTests {
+public class GetApiTest {
+
+	static Logger logger = LoggerFactory.getLogger(GetApiTest.class);
 	
 	@BeforeAll
-	public void init() throws URISyntaxException {
-		System.out.println("init");
-		System.setProperty("swagger-file", new File(GetApiTests.class.getResource("/swagger.json").toURI()).getAbsolutePath());
+	public static void init() throws URISyntaxException {
+		System.setProperty("swagger-file", new File(GetApiTest.class.getResource("/swagger.json").toURI()).getAbsolutePath());
 	}
 	
 	@Test
-	public void simpleGetTest() {
+	public void testSimpleGet() {
 		new ScenarioRunnerExt().invokeCallApi("get:/pet/{petId}");
 	}
 	

@@ -7,4 +7,4 @@ workflows:
   maven_test:
     jobs:
       - maven/test: # checkout, build, test, and upload test results
-          app_src_directory: '~/api-automation'
+          app_src_directory: '~/api-automation/api-automation'
